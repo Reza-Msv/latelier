@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #FDFBF7;
+    --foreground: #17120F;
+    --primary-orange: #F97316;
+    --deep-orange: #EA580C;
+    --crimson-red: #DC2626;
+    --warm-red: #EF4444;
+    --culinary-yellow: #FACC15;
+    --cream: #FFF7ED;
+    --cream-light: #FDFBF7;
+    --cream-muted: #F3EADF;
+    --dark-charcoal: #17120F;
+    --dark-surface: #0E0A08;
+    --dark-card: #201A16;
+    --muted-border: #E8DED1;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand-orange: #F97316;
+  --color-brand-deep-orange: #EA580C;
+  --color-brand-red: #DC2626;
+  --color-brand-warm-red: #EF4444;
+  --color-brand-yellow: #FACC15;
+  --color-brand-cream: #FFF7ED;
+  --color-brand-cream-light: #FDFBF7;
+  --color-brand-cream-muted: #F3EADF;
+  --color-brand-dark: #17120F;
+  --color-brand-dark-surface: #0E0A08;
+  --color-brand-dark-card: #201A16;
+  
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-jakarta), var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  --font-display: var(--font-playfair), Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #FDFBF7;
+  color: #17120F;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom selection */
+::selection {
+  background-color: #EA580C;
+  color: #FFF7ED;
+}
+
+/* Marquee keyframes */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 35s linear infinite;
+}
+
+.animate-marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
+/* Meteors animation */
+@keyframes meteor {
+  0% {
+    transform: rotate(215deg) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(215deg) translateX(-600px);
+    opacity: 0;
+  }
+}
+
+.animate-meteor-effect {
+  animation: meteor 5s linear infinite;
+}
+
+/* Custom utilities */
+.font-editorial {
+  font-family: var(--font-playfair), Georgia, serif;
+  letter-spacing: -0.02em;
+}
+
+.font-sans-clean {
+  font-family: var(--font-jakarta), var(--font-geist-sans), sans-serif;
+}
+
+/* Noise overlay */
+.bg-noise {
+  background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.bg-dark-noise {
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
