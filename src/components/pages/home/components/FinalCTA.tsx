@@ -77,8 +77,12 @@ export function FinalCTA() {
       {/* Background Noise */}
       <div className="absolute inset-0 bg-noise opacity-40 pointer-events-none" />
 
-      {/* Decorative Warm Backlight */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-tr from-[#EA580C]/10 via-[#FACC15]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+      {/* Decorative Warm Backlight with Framer Motion Pulse */}
+      <motion.div
+        animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-tr from-[#EA580C]/10 via-[#FACC15]/10 to-transparent rounded-full blur-3xl pointer-events-none"
+      />
 
       <div className="relative z-10 max-w-6xl mx-auto text-center space-y-12">
         {/* Eyebrow with AnimatedShinyText */}
@@ -133,10 +137,14 @@ export function FinalCTA() {
           </div>
 
           {status === "success" ? (
-            <div className="p-6 rounded-2xl bg-[#17120F] text-[#FFF7ED] border border-[#EA580C] flex items-center justify-center gap-3 font-mono text-sm shadow-xl animate-in fade-in zoom-in duration-500">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="p-6 rounded-2xl bg-[#17120F] text-[#FFF7ED] border border-[#EA580C] flex items-center justify-center gap-3 font-mono text-sm shadow-xl"
+            >
               <Check className="w-5 h-5 text-emerald-400" />
               <span>WELCOME TO THE ATELIER. FIRST FORMULA SENT.</span>
-            </div>
+            </motion.div>
           ) : (
             <div className="space-y-3">
               <form
@@ -159,10 +167,13 @@ export function FinalCTA() {
                   }}
                   className="w-full px-6 py-3.5 text-sm font-sans bg-transparent outline-none text-[#17120F] placeholder:text-[#17120F]/40 disabled:opacity-50"
                 />
-                <button
+                <motion.button
                   type="submit"
                   disabled={status === "loading"}
-                  className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#EA580C] hover:bg-[#C2410C] text-white font-semibold text-xs font-mono uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#EA580C] hover:bg-[#C2410C] text-white font-semibold text-xs font-mono uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {status === "loading" ? (
                     <>
@@ -175,7 +186,7 @@ export function FinalCTA() {
                       <Send className="w-3.5 h-3.5" />
                     </>
                   )}
-                </button>
+                </motion.button>
               </form>
 
               {status === "error" && (

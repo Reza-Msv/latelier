@@ -117,15 +117,24 @@ export function CategoriesSection() {
         {/* Interactive Dual Spread: Links on Left, Dynamic High-Res Photo on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Categories List with KineticText & NumberTicker */}
-          <div className="lg:col-span-7 flex flex-col divide-y divide-[#FFF7ED]/10">
+          <div className="lg:col-span-7 flex flex-col divide-y divide-[#FFF7ED]/10 relative">
             {CATEGORIES.map((category) => {
               const isActive = activeCategory.number === category.number;
               return (
-                <div
+                <motion.div
                   key={category.number}
                   onMouseEnter={() => setActiveCategory(category)}
-                  className="group py-6 sm:py-7 cursor-pointer transition-colors duration-300"
+                  className="group py-6 sm:py-7 cursor-pointer relative px-3 rounded-2xl transition-colors duration-300"
+                  whileHover={{ x: 6 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
                 >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeCategoryHighlight"
+                      className="absolute inset-0 bg-[#FFF7ED]/[0.04] border-l-2 border-[#EA580C] rounded-2xl -z-10"
+                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    />
+                  )}
                   <div className="flex items-baseline justify-between gap-4">
                     <div className="flex items-baseline gap-4 sm:gap-6">
                       <span
@@ -139,8 +148,8 @@ export function CategoriesSection() {
                         <h3
                           className={`font-serif text-2xl sm:text-3xl md:text-4xl uppercase transition-transform duration-300 flex items-center gap-3 ${
                             isActive
-                              ? "text-[#EA580C] translate-x-2"
-                              : "text-[#FFF7ED] group-hover:text-[#F97316] group-hover:translate-x-2"
+                              ? "text-[#EA580C] translate-x-1"
+                              : "text-[#FFF7ED] group-hover:text-[#F97316]"
                           }`}
                         >
                           <KineticText>{category.title}</KineticText>
@@ -160,7 +169,7 @@ export function CategoriesSection() {
                       <NumberTicker value={category.count} /> {category.unit}
                     </span>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>

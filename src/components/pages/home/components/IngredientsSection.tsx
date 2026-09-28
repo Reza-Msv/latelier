@@ -131,17 +131,20 @@ export function IngredientsSection() {
           {INGREDIENTS.map((item) => {
             const isSelected = selectedIngredient.id === item.id;
             return (
-              <div
+              <motion.div
                 key={item.id}
                 onClick={() => setSelectedIngredient(item)}
-                className={`cursor-pointer transition-transform duration-500 ${item.xOffset}`}
+                className={`cursor-pointer ${item.xOffset}`}
+                whileHover={{ y: -6, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
               >
                 <Pointer name="INSPECT ORIGIN">
                   <div
                     className={`relative rounded-2xl overflow-hidden border transition-all duration-300 p-3 bg-white ${
                       isSelected
                         ? "border-[#EA580C] ring-2 ring-[#EA580C]/40 shadow-xl -translate-y-2"
-                        : "border-[#17120F]/10 hover:border-[#EA580C]/50 shadow-sm hover:-translate-y-1"
+                        : "border-[#17120F]/10 hover:border-[#EA580C]/50 shadow-sm"
                     }`}
                   >
                     <div className="relative aspect-square w-full rounded-xl overflow-hidden">
@@ -169,7 +172,7 @@ export function IngredientsSection() {
                     </div>
                   </div>
                 </Pointer>
-              </div>
+              </motion.div>
             );
           })}
         </div>

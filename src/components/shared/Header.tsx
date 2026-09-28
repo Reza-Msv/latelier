@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { FullscreenMenu } from "@/components/ui/FullscreenMenu";
 import { cn } from "@/lib/utils";
 
@@ -27,7 +28,10 @@ export function Header() {
 
   return (
     <>
-      <header
+      <motion.header
+        initial={{ y: -60, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
           "fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] px-6 sm:px-12 md:px-16 py-5 md:py-6",
           isScrolled
@@ -55,13 +59,16 @@ export function Header() {
             </div>
           </a>
 
-          {/* Clean Menu Action */}
-          <button
+          {/* Clean Menu Action with Framer Motion Spring */}
+          <motion.button
             onClick={() => setIsMenuOpen(true)}
             aria-expanded={isMenuOpen}
             aria-label="Open navigation menu"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
             className={cn(
-              "group relative flex items-center gap-3 px-5 py-2.5 min-h-[44px] rounded-full border transition-all duration-300 text-xs font-mono tracking-[0.2em] uppercase",
+              "group relative flex items-center gap-3 px-5 py-2.5 min-h-[44px] rounded-full border transition-all duration-300 text-xs font-mono tracking-[0.2em] uppercase cursor-pointer",
               isScrolled
                 ? "bg-[#FFF7ED]/10 hover:bg-[#EA580C] text-[#FFF7ED] border-[#FFF7ED]/20 hover:border-[#EA580C]"
                 : "bg-black/30 hover:bg-[#EA580C] text-[#FFF7ED] border-white/20 hover:border-[#EA580C] backdrop-blur-md shadow-lg"
@@ -72,9 +79,9 @@ export function Header() {
               <span className="h-[1.5px] w-full bg-[#FFF7ED] transition-transform group-hover:translate-x-0.5" />
               <span className="h-[1.5px] w-2.5 bg-[#EA580C] group-hover:w-full group-hover:bg-[#FFF7ED] transition-all" />
             </div>
-          </button>
+          </motion.button>
         </div>
-      </header>
+      </motion.header>
 
       {/* Fullscreen Navigation Modal */}
       <FullscreenMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />

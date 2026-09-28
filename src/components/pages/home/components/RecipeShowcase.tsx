@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { Clock, ChefHat, Sparkles, Wine, Flame, CheckCircle2, Eye } from "lucide-react";
 import { Lens } from "@/components/ui/Lens";
 import { VideoText } from "@/components/ui/VideoText";
@@ -178,30 +179,49 @@ export function RecipeShowcase() {
 
             {/* Culinary Steps Interactive Tabs */}
             <div className="space-y-3 pt-2">
-              <div className="flex gap-2">
-                {steps.map((st, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveStep(i)}
-                    className={`flex-1 py-2 px-3 rounded-lg text-[11px] font-mono tracking-wider uppercase transition-all ${
-                      activeStep === i
-                        ? "bg-[#EA580C] text-white font-bold"
-                        : "bg-[#FFF7ED]/5 text-[#FFF7ED]/60 hover:bg-[#FFF7ED]/10"
-                    }`}
-                  >
-                    STEP 0{i + 1}
-                  </button>
-                ))}
+              <div className="flex gap-2 relative">
+                {steps.map((st, i) => {
+                  const isActive = activeStep === i;
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => setActiveStep(i)}
+                      className={`relative flex-1 py-2 px-3 rounded-lg text-[11px] font-mono tracking-wider uppercase transition-colors duration-300 z-10 ${
+                        isActive
+                          ? "text-white font-bold"
+                          : "text-[#FFF7ED]/60 hover:text-white bg-[#FFF7ED]/5"
+                      }`}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeShowcaseStep"
+                          className="absolute inset-0 bg-[#EA580C] rounded-lg -z-10 shadow-md"
+                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                        />
+                      )}
+                      <span>STEP 0{i + 1}</span>
+                    </button>
+                  );
+                })}
               </div>
 
-              <div className="p-4 rounded-xl bg-[#FFF7ED]/5 border border-[#FFF7ED]/10">
-                <p className="font-serif text-sm font-semibold text-[#FFF7ED]">
-                  {steps[activeStep].title}
-                </p>
-                <p className="text-xs text-[#FFF7ED]/70 mt-1 leading-relaxed">
-                  {steps[activeStep].detail}
-                </p>
-              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeStep}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25 }}
+                  className="p-4 rounded-xl bg-[#FFF7ED]/5 border border-[#FFF7ED]/10"
+                >
+                  <p className="font-serif text-sm font-semibold text-[#FFF7ED]">
+                    {steps[activeStep].title}
+                  </p>
+                  <p className="text-xs text-[#FFF7ED]/70 mt-1 leading-relaxed">
+                    {steps[activeStep].detail}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Actions with InteractiveHoverButton */}
