@@ -1,6 +1,7 @@
 {
-  "name": "recipes",
+  "name": "latelier",
   "version": "0.1.0",
+  "description": "L'ATELIER — A modern, luxury culinary & gourmet recipe experience",
   "private": true,
   "scripts": {
     "dev": "next dev",
