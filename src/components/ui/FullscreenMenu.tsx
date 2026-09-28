@@ -29,14 +29,20 @@ export function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps) {
     };
 
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.overflow = "hidden";
+      if (scrollbarWidth > 0) {
+        document.documentElement.style.paddingRight = `${scrollbarWidth}px`;
+      }
       window.addEventListener("keydown", handleKeyDown);
     } else {
-      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      document.documentElement.style.paddingRight = "";
     }
 
     return () => {
-      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      document.documentElement.style.paddingRight = "";
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen, onClose]);
@@ -79,7 +85,7 @@ export function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps) {
             <button
               onClick={onClose}
               aria-label="Close navigation menu"
-              className="group flex items-center gap-2.5 px-4 py-2 rounded-full border border-[#FFF7ED]/20 hover:border-[#EA580C] bg-[#FFF7ED]/5 hover:bg-[#EA580C]/20 transition-all duration-300 text-xs uppercase tracking-widest text-[#FFF7ED]"
+              className="group flex items-center justify-center min-h-[44px] min-w-[44px] gap-2.5 px-4 py-2 rounded-full border border-[#FFF7ED]/20 hover:border-[#EA580C] bg-[#FFF7ED]/5 hover:bg-[#EA580C]/20 transition-all duration-300 text-xs uppercase tracking-widest text-[#FFF7ED]"
             >
               <span>CLOSE</span>
               <X className="w-4 h-4 transition-transform group-hover:rotate-90 text-[#EA580C]" />

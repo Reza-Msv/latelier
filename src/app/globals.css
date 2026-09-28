@@ -162,3 +162,7 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+button, a {
+  touch-action: manipulation;
+}
