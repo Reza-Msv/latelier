@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Marquee } from "@/components/ui/Marquee";
 import { VelocityScroll } from "@/components/ui/VelocityScroll";
