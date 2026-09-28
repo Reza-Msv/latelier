@@ -201,7 +201,7 @@ export function IngredientsSection() {
                       alt={selectedIngredient.name}
                       fill
                       loading="lazy"
-                      sizes="(max-width: 1024px) 100vw, 30vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 30vw"
                       className="object-cover"
                     />
                   </div>

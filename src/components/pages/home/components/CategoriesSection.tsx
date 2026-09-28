@@ -186,7 +186,7 @@ export function CategoriesSection() {
                       alt={activeCategory.title}
                       fill
                       loading="lazy"
-                      sizes="(max-width: 1024px) 100vw, 40vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
                       className="object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#17120F]/90 via-[#17120F]/20 to-transparent pointer-events-none" />

@@ -72,7 +72,7 @@ export function RecipeShowcase() {
                       alt="Spicy Rigatoni with creamy tomato sauce, smoked burrata and fresh basil"
                       fill
                       loading="lazy"
-                      sizes="(max-width: 1024px) 100vw, 60vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 70vw, 60vw"
                       className="object-cover object-center"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#17120F]/80 via-transparent to-transparent pointer-events-none" />

@@ -9,11 +9,15 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 40);
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
@@ -57,7 +61,7 @@ export function Header() {
             aria-expanded={isMenuOpen}
             aria-label="Open navigation menu"
             className={cn(
-              "group relative flex items-center gap-3 px-5 py-2.5 rounded-full border transition-all duration-300 text-xs font-mono tracking-[0.2em] uppercase",
+              "group relative flex items-center gap-3 px-5 py-2.5 min-h-[44px] rounded-full border transition-all duration-300 text-xs font-mono tracking-[0.2em] uppercase",
               isScrolled
                 ? "bg-[#FFF7ED]/10 hover:bg-[#EA580C] text-[#FFF7ED] border-[#FFF7ED]/20 hover:border-[#EA580C]"
                 : "bg-black/30 hover:bg-[#EA580C] text-[#FFF7ED] border-white/20 hover:border-[#EA580C] backdrop-blur-md shadow-lg"

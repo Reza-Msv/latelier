@@ -174,7 +174,7 @@ export function FeaturedRecipes() {
                       alt={heroRecipe.title}
                       fill
                       loading="lazy"
-                      sizes="(max-width: 1024px) 100vw, 60vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 70vw, 60vw"
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#17120F]/90 via-[#17120F]/30 to-transparent" />

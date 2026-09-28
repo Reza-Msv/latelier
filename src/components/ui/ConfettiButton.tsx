@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import confetti from "canvas-confetti";
 import { Bookmark, Check, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -31,17 +30,20 @@ export function ConfettiButton({
     const y = (rect.top + rect.height / 2) / window.innerHeight;
 
     // Trigger culinary celebration confetti
-    confetti({
-      particleCount: 45,
-      spread: 60,
-      origin: { x, y },
-      colors: ["#F97316", "#EA580C", "#FACC15", "#DC2626", "#FFF7ED"],
-      ticks: 200,
-      gravity: 1.2,
-      decay: 0.94,
-      startVelocity: 30,
-      shapes: ["circle"],
-      scalar: 0.9,
+    import("canvas-confetti").then((module) => {
+      const confetti = module.default;
+      confetti({
+        particleCount: 45,
+        spread: 60,
+        origin: { x, y },
+        colors: ["#F97316", "#EA580C", "#FACC15", "#DC2626", "#FFF7ED"],
+        ticks: 200,
+        gravity: 1.2,
+        decay: 0.94,
+        startVelocity: 30,
+        shapes: ["circle"],
+        scalar: 0.9,
+      });
     });
 
     setIsSaved((prev) => !prev);
