@@ -5,8 +5,13 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Clock, ChefHat, Sparkles, ArrowUpRight } from "lucide-react";
 import { GlareCard } from "@/components/ui/GlareCard";
+import { GlareHover } from "@/components/ui/GlareHover";
 import { ConfettiButton } from "@/components/ui/ConfettiButton";
 import { Pointer } from "@/components/ui/Pointer";
+import { DiaTextReveal } from "@/components/ui/DiaTextReveal";
+import { ComicText } from "@/components/ui/ComicText";
+import { PixelImage } from "@/components/ui/PixelImage";
+import { NumberTicker } from "@/components/ui/NumberTicker";
 
 interface Recipe {
   id: string;
@@ -15,7 +20,7 @@ interface Recipe {
   category: string;
   time: string;
   difficulty: "Easy" | "Medium" | "Master" | "Artisanal";
-  calories: string;
+  calories: number;
   servings: string;
   imageUrl: string;
   chefPick?: boolean;
@@ -31,9 +36,9 @@ const RECIPES: Recipe[] = [
     category: "SEAFOOD & MAINS",
     time: "25 MIN",
     difficulty: "Master",
-    calories: "420 KCAL",
+    calories: 420,
     servings: "2 PORTIONS",
-    imageUrl: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=1600&q=85",
+    imageUrl: "/images/recipes/scallops.jpg",
     featured: true,
     chefPick: true,
     palette: "#EA580C",
@@ -45,9 +50,9 @@ const RECIPES: Recipe[] = [
     category: "SIGNATURE ROASTS",
     time: "40 MIN",
     difficulty: "Artisanal",
-    calories: "580 KCAL",
+    calories: 580,
     servings: "4 PORTIONS",
-    imageUrl: "https://images.unsplash.com/photo-1514944298352-f47ffbb35508?auto=format&fit=crop&w=1000&q=85",
+    imageUrl: "/images/recipes/duck-breast.jpg",
     palette: "#DC2626",
   },
   {
@@ -57,9 +62,9 @@ const RECIPES: Recipe[] = [
     category: "PASTA & GRAINS",
     time: "35 MIN",
     difficulty: "Medium",
-    calories: "490 KCAL",
+    calories: 490,
     servings: "2 PORTIONS",
-    imageUrl: "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?auto=format&fit=crop&w=1000&q=85",
+    imageUrl: "/images/recipes/risotto.jpg",
     chefPick: true,
     palette: "#F59E0B",
   },
@@ -70,9 +75,9 @@ const RECIPES: Recipe[] = [
     category: "PASTRY & DESSERTS",
     time: "50 MIN",
     difficulty: "Master",
-    calories: "340 KCAL",
+    calories: 340,
     servings: "6 PORTIONS",
-    imageUrl: "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?auto=format&fit=crop&w=1000&q=85",
+    imageUrl: "/images/recipes/citrus-tart.jpg",
     palette: "#FACC15",
   },
   {
@@ -82,9 +87,9 @@ const RECIPES: Recipe[] = [
     category: "HEIRLOOM BAKERY",
     time: "20 MIN",
     difficulty: "Easy",
-    calories: "620 KCAL",
+    calories: 620,
     servings: "3 PORTIONS",
-    imageUrl: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1000&q=85",
+    imageUrl: "/images/recipes/burrata-pizza.jpg",
     palette: "#EA580C",
   },
 ];
@@ -111,17 +116,26 @@ export function FeaturedRecipes() {
       <div className="absolute inset-0 bg-noise opacity-40 pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto space-y-16">
-        {/* Section Header */}
+        {/* Section Header with DiaTextReveal & ComicText */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#17120F]/10 pb-10">
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono tracking-[0.25em] uppercase text-[#EA580C]">
-              <Sparkles className="w-4 h-4 text-[#EA580C]" />
-              <span>EDITORIAL ARCHIVE • ISSUE NO. 48</span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 text-xs font-mono tracking-[0.25em] uppercase text-[#EA580C]">
+                <Sparkles className="w-4 h-4 text-[#EA580C]" />
+                <span>EDITORIAL ARCHIVE • ISSUE NO. 48</span>
+              </div>
+              <ComicText textColor="#FACC15" shadowColor="#EA580C">
+                AUTUMN SELECTION
+              </ComicText>
             </div>
-            <h2 className="font-serif text-4xl sm:text-6xl font-normal tracking-tight uppercase">
+
+            <DiaTextReveal
+              as="h2"
+              className="font-serif text-4xl sm:text-6xl font-normal tracking-tight uppercase"
+            >
               Handcrafted <br />
               <span className="italic font-serif text-[#EA580C]">Seasonal</span> Recipes.
-            </h2>
+            </DiaTextReveal>
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -146,66 +160,74 @@ export function FeaturedRecipes() {
 
         {/* Asymmetric Editorial Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Large Hero Recipe (Left / Span 7) */}
+          {/* Large Hero Recipe with GlareHover and GlareCard (Left / Span 7) */}
           <div className="lg:col-span-7">
             <Pointer name="CHEF OF THE SEASON" className="h-full">
-              <GlareCard className="bg-[#17120F] text-[#FFF7ED] p-4 sm:p-6 shadow-2xl group border border-black/5">
-                <div className="relative aspect-[16/11] w-full overflow-hidden rounded-xl">
-                  <Image
-                    src={heroRecipe.imageUrl}
-                    alt={heroRecipe.title}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#17120F]/90 via-[#17120F]/30 to-transparent" />
+              <GlareHover
+                glareColor="rgba(255, 255, 255, 0.3)"
+                className="rounded-2xl"
+              >
+                <GlareCard className="bg-[#17120F] text-[#FFF7ED] p-4 sm:p-6 shadow-2xl group border border-black/5">
+                  <div className="relative aspect-[16/11] w-full overflow-hidden rounded-xl">
+                    <Image
+                      src={heroRecipe.imageUrl}
+                      alt={heroRecipe.title}
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 1024px) 100vw, 60vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#17120F]/90 via-[#17120F]/30 to-transparent" />
 
-                  {/* Top floating badges */}
-                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
-                    <span className="px-3.5 py-1.5 rounded-full bg-[#EA580C] text-white text-[10px] font-mono font-bold tracking-widest uppercase shadow-md">
-                      FEATURED COMPOSITION
-                    </span>
-                    <ConfettiButton recipeName={heroRecipe.title} variant="icon" />
-                  </div>
-
-                  {/* Bottom details on image */}
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <span className="text-xs font-mono tracking-widest uppercase text-[#FACC15]">
-                      {heroRecipe.category}
-                    </span>
-                    <h3 className="font-serif text-2xl sm:text-3xl font-normal leading-tight mt-1 group-hover:text-[#F97316] transition-colors">
-                      {heroRecipe.title}
-                    </h3>
-                  </div>
-                </div>
-
-                {/* Sub details */}
-                <div className="pt-5 space-y-4">
-                  <p className="text-sm font-sans text-[#FFF7ED]/75 leading-relaxed">
-                    {heroRecipe.subtitle}
-                  </p>
-                  <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[#FFF7ED]/10 text-xs font-mono text-[#FFF7ED]/70">
-                    <div className="flex items-center gap-4">
-                      <span className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-[#EA580C]" /> {heroRecipe.time}
+                    {/* Top floating badges */}
+                    <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
+                      <span className="px-3.5 py-1.5 rounded-full bg-[#EA580C] text-white text-[10px] font-mono font-bold tracking-widest uppercase shadow-md">
+                        FEATURED COMPOSITION
                       </span>
-                      <span className="flex items-center gap-1.5">
-                        <ChefHat className="w-3.5 h-3.5 text-[#FACC15]" /> {heroRecipe.difficulty}
-                      </span>
-                      <span>{heroRecipe.servings}</span>
+                      <ConfettiButton recipeName={heroRecipe.title} variant="icon" />
                     </div>
 
-                    <div className="flex items-center gap-2 text-[#EA580C] font-semibold text-xs group-hover:translate-x-1 transition-transform cursor-pointer">
-                      <span>VIEW FULL FORMULA</span>
-                      <ArrowUpRight className="w-4 h-4" />
+                    {/* Bottom details on image */}
+                    <div className="absolute bottom-4 left-4 right-4 text-white">
+                      <span className="text-xs font-mono tracking-widest uppercase text-[#FACC15]">
+                        {heroRecipe.category}
+                      </span>
+                      <h3 className="font-serif text-2xl sm:text-3xl font-normal leading-tight mt-1 group-hover:text-[#F97316] transition-colors">
+                        {heroRecipe.title}
+                      </h3>
                     </div>
                   </div>
-                </div>
-              </GlareCard>
+
+                  {/* Sub details */}
+                  <div className="pt-5 space-y-4">
+                    <p className="text-sm font-sans text-[#FFF7ED]/75 leading-relaxed">
+                      {heroRecipe.subtitle}
+                    </p>
+                    <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[#FFF7ED]/10 text-xs font-mono text-[#FFF7ED]/70">
+                      <div className="flex items-center gap-4">
+                        <span className="flex items-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5 text-[#EA580C]" /> {heroRecipe.time}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <ChefHat className="w-3.5 h-3.5 text-[#FACC15]" /> {heroRecipe.difficulty}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <NumberTicker value={heroRecipe.calories} suffix=" KCAL" />
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-[#EA580C] font-semibold text-xs group-hover:translate-x-1 transition-transform cursor-pointer">
+                        <span>VIEW FULL FORMULA</span>
+                        <ArrowUpRight className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
+                </GlareCard>
+              </GlareHover>
             </Pointer>
           </div>
 
-          {/* Right Side Asymmetric Column (Span 5) */}
+          {/* Right Side Asymmetric Column with PixelImage & GlareHover (Span 5) */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             {sideRecipes.map((recipe, index) => (
               <motion.div
@@ -215,50 +237,52 @@ export function FeaturedRecipes() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <GlareCard className="bg-[#FFF7ED] p-4 sm:p-5 border border-[#17120F]/10 hover:border-[#EA580C]/40 transition-all duration-300 shadow-sm hover:shadow-xl group">
-                  <div className="flex flex-col sm:flex-row gap-5">
-                    {/* Thumbnail */}
-                    <div className="relative aspect-[4/3] sm:aspect-square w-full sm:w-36 shrink-0 overflow-hidden rounded-xl">
-                      <Image
-                        src={recipe.imageUrl}
-                        alt={recipe.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 150px"
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      {recipe.chefPick && (
-                        <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-[#17120F]/80 backdrop-blur-sm text-white text-[9px] font-mono tracking-wider">
-                          ✦ PICK
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex flex-col justify-between space-y-2 flex-1">
-                      <div>
-                        <div className="flex items-center justify-between text-[11px] font-mono text-[#EA580C] uppercase tracking-wider">
-                          <span>{recipe.category}</span>
-                          <span className="text-[#17120F]/50">{recipe.time}</span>
-                        </div>
-                        <h4 className="font-serif text-lg font-normal leading-snug mt-1 text-[#17120F] group-hover:text-[#EA580C] transition-colors">
-                          {recipe.title}
-                        </h4>
-                        <p className="text-xs text-[#17120F]/65 line-clamp-2 mt-1 font-sans">
-                          {recipe.subtitle}
-                        </p>
+                <GlareHover glareColor="rgba(234, 88, 12, 0.15)" className="rounded-2xl">
+                  <GlareCard className="bg-[#FFF7ED] p-4 sm:p-5 border border-[#17120F]/10 hover:border-[#EA580C]/40 transition-all duration-300 shadow-sm hover:shadow-xl group">
+                    <div className="flex flex-col sm:flex-row gap-5">
+                      {/* Thumbnail with PixelImage hover transition */}
+                      <div className="relative aspect-[4/3] sm:aspect-square w-full sm:w-36 shrink-0 overflow-hidden rounded-xl">
+                        <PixelImage
+                          src={recipe.imageUrl}
+                          alt={recipe.title}
+                          pixelSize={14}
+                          aspectRatio="aspect-square"
+                          className="w-full h-full rounded-xl"
+                        />
+                        {recipe.chefPick && (
+                          <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-[#17120F]/80 backdrop-blur-sm text-white text-[9px] font-mono tracking-wider z-10">
+                            ✦ PICK
+                          </div>
+                        )}
                       </div>
 
-                      <div className="flex items-center justify-between pt-2 border-t border-[#17120F]/10">
-                        <span className="text-[11px] font-mono text-[#17120F]/70">
-                          DIFFICULTY: <strong className="text-[#17120F]">{recipe.difficulty}</strong>
-                        </span>
-                        <ConfettiButton recipeName={recipe.title} variant="pill">
-                          Save
-                        </ConfettiButton>
+                      {/* Content */}
+                      <div className="flex flex-col justify-between space-y-2 flex-1">
+                        <div>
+                          <div className="flex items-center justify-between text-[11px] font-mono text-[#EA580C] uppercase tracking-wider">
+                            <span>{recipe.category}</span>
+                            <span className="text-[#17120F]/50">{recipe.time}</span>
+                          </div>
+                          <h4 className="font-serif text-lg font-normal leading-snug mt-1 text-[#17120F] group-hover:text-[#EA580C] transition-colors">
+                            {recipe.title}
+                          </h4>
+                          <p className="text-xs text-[#17120F]/65 line-clamp-2 mt-1 font-sans">
+                            {recipe.subtitle}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-2 border-t border-[#17120F]/10">
+                          <span className="text-[11px] font-mono text-[#17120F]/70 flex items-center gap-1">
+                            DIFFICULTY: <strong className="text-[#17120F]">{recipe.difficulty}</strong>
+                          </span>
+                          <ConfettiButton recipeName={recipe.title} variant="pill">
+                            Save
+                          </ConfettiButton>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </GlareCard>
+                  </GlareCard>
+                </GlareHover>
               </motion.div>
             ))}
           </div>

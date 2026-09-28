@@ -5,6 +5,10 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Compass } from "lucide-react";
 import { Pointer } from "@/components/ui/Pointer";
+import { TextReveal } from "@/components/ui/TextReveal";
+import { PixelImage } from "@/components/ui/PixelImage";
+import { KineticText } from "@/components/ui/KineticText";
+import { GlareHover } from "@/components/ui/GlareHover";
 
 interface Ingredient {
   id: string;
@@ -27,7 +31,7 @@ const INGREDIENTS: Ingredient[] = [
     origin: "Agro Sarnese-Nocerino, Mount Vesuvius Volcanic Soil",
     flavorNote: "Low acidity, bittersweet caramelization, intense sun-kissed sweetness with rich natural pectin.",
     sensoryProfile: ["Volcanic Umami", "Vibrant Sweetness", "Sun-Drenched"],
-    imageUrl: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=85",
+    imageUrl: "/images/ingredients/san-marzano.jpg",
     accentColor: "#DC2626",
     xOffset: "lg:translate-y-0",
     yOffset: "0px",
@@ -39,7 +43,7 @@ const INGREDIENTS: Ingredient[] = [
     origin: "Liguria Coastal Terraces, Italy",
     flavorNote: "Peppery clove aroma with refreshing anise undertones. Harvested before morning dew evaporates.",
     sensoryProfile: ["Herbaceous Crisp", "Aromatic Anise", "Clove Notes"],
-    imageUrl: "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?auto=format&fit=crop&w=800&q=85",
+    imageUrl: "/images/ingredients/genovese-basil.jpg",
     accentColor: "#16A34A",
     xOffset: "lg:translate-y-8",
     yOffset: "10px",
@@ -51,7 +55,7 @@ const INGREDIENTS: Ingredient[] = [
     origin: "Calabrian Hillsides, Southern Italy",
     flavorNote: "Smoky, fruity slow warmth that lingers with a deep mineral complexity without blinding heat.",
     sensoryProfile: ["Slow Warmth", "Smoked Fruit", "Rich Capsaicin"],
-    imageUrl: "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?auto=format&fit=crop&w=800&q=85",
+    imageUrl: "/images/ingredients/calabrian-chili.jpg",
     accentColor: "#EA580C",
     xOffset: "lg:-translate-y-4",
     yOffset: "-10px",
@@ -63,7 +67,7 @@ const INGREDIENTS: Ingredient[] = [
     origin: "Valle del Belice, Sicily",
     flavorNote: "Emerald-green cold extraction. Notes of artichoke heart, green tomato skin, and peppery finish.",
     sensoryProfile: ["Artichoke Green", "Velvet Body", "Peppery Finish"],
-    imageUrl: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=85",
+    imageUrl: "/images/ingredients/cold-pressed-oil.jpg",
     accentColor: "#FACC15",
     xOffset: "lg:translate-y-12",
     yOffset: "15px",
@@ -75,7 +79,7 @@ const INGREDIENTS: Ingredient[] = [
     origin: "Amalfi Coast Terraced Orchards",
     flavorNote: "Intense fragrant essential oils in thick sweet rind. Gentle bright citric balance with zero bitterness.",
     sensoryProfile: ["Essential Citrus", "Floral Bloom", "High Brightness"],
-    imageUrl: "https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=800&q=85",
+    imageUrl: "/images/ingredients/amalfi-lemon.jpg",
     accentColor: "#F59E0B",
     xOffset: "lg:translate-y-2",
     yOffset: "5px",
@@ -113,7 +117,16 @@ export function IngredientsSection() {
           </p>
         </div>
 
-        {/* Interactive Floating / Layered Ingredient Cards */}
+        {/* Scroll-based TextReveal Philosophy Statement */}
+        <div className="py-4 border-b border-[#17120F]/10">
+          <TextReveal
+            text="HONOR THE SOIL • CELEBRATE THE SEASONS • TASTE THE UNTOUCHED HARVEST"
+            subtext="HARVEST MANIFESTO"
+            className="text-[#17120F]"
+          />
+        </div>
+
+        {/* Interactive Floating / Layered Ingredient Cards with PixelImage */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
           {INGREDIENTS.map((item) => {
             const isSelected = selectedIngredient.id === item.id;
@@ -132,19 +145,19 @@ export function IngredientsSection() {
                     }`}
                   >
                     <div className="relative aspect-square w-full rounded-xl overflow-hidden">
-                      <Image
+                      <PixelImage
                         src={item.imageUrl}
                         alt={item.name}
-                        fill
-                        sizes="(max-width: 768px) 50vw, 20vw"
-                        className="object-cover transition-transform duration-700 hover:scale-110"
+                        pixelSize={12}
+                        aspectRatio="aspect-square"
+                        className="w-full h-full rounded-xl"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                       <span
                         style={{ backgroundColor: item.accentColor }}
-                        className="absolute top-2 left-2 w-2.5 h-2.5 rounded-full shadow-md"
+                        className="absolute top-2 left-2 w-2.5 h-2.5 rounded-full shadow-md z-10"
                       />
-                      <span className="absolute bottom-2 left-2 right-2 text-white font-serif text-sm font-medium leading-tight line-clamp-1">
+                      <span className="absolute bottom-2 left-2 right-2 text-white font-serif text-sm font-medium leading-tight line-clamp-1 z-10">
                         {item.name.split(" ")[0]}
                       </span>
                     </div>
@@ -161,7 +174,7 @@ export function IngredientsSection() {
           })}
         </div>
 
-        {/* Deep Dive Ingredient Feature Card */}
+        {/* Deep Dive Ingredient Feature Card with GlareHover & KineticText */}
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedIngredient.id}
@@ -169,54 +182,64 @@ export function IngredientsSection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.4 }}
-            className="rounded-3xl bg-[#17120F] text-[#FFF7ED] p-8 sm:p-12 border border-[#FFF7ED]/15 shadow-2xl relative overflow-hidden"
           >
-            <div className="absolute -right-20 -bottom-20 w-80 h-80 rounded-full blur-3xl opacity-20 pointer-events-none" style={{ backgroundColor: selectedIngredient.accentColor }} />
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              {/* Image Preview */}
-              <div className="lg:col-span-4 relative aspect-[4/3] rounded-2xl overflow-hidden border border-[#FFF7ED]/20 shadow-lg">
-                <Image
-                  src={selectedIngredient.imageUrl}
-                  alt={selectedIngredient.name}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 30vw"
-                  className="object-cover"
+            <GlareHover
+              glareColor="rgba(255, 255, 255, 0.15)"
+              className="rounded-3xl"
+            >
+              <div className="rounded-3xl bg-[#17120F] text-[#FFF7ED] p-8 sm:p-12 border border-[#FFF7ED]/15 shadow-2xl relative overflow-hidden">
+                <div
+                  className="absolute -right-20 -bottom-20 w-80 h-80 rounded-full blur-3xl opacity-20 pointer-events-none"
+                  style={{ backgroundColor: selectedIngredient.accentColor }}
                 />
-              </div>
 
-              {/* Description & Taste Note */}
-              <div className="lg:col-span-8 space-y-6">
-                <div>
-                  <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-[#FACC15] uppercase mb-2">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>BOTANICAL PROFILE • {selectedIngredient.botanicalName}</span>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  {/* Image Preview with Next.js Image */}
+                  <div className="lg:col-span-4 relative aspect-[4/3] rounded-2xl overflow-hidden border border-[#FFF7ED]/20 shadow-lg">
+                    <Image
+                      src={selectedIngredient.imageUrl}
+                      alt={selectedIngredient.name}
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 1024px) 100vw, 30vw"
+                      className="object-cover"
+                    />
                   </div>
-                  <h3 className="font-serif text-2xl sm:text-4xl font-normal text-white">
-                    {selectedIngredient.name}
-                  </h3>
-                  <p className="text-xs font-mono text-[#FFF7ED]/60 mt-1">
-                    TERROIR: {selectedIngredient.origin}
-                  </p>
-                </div>
 
-                <p className="text-sm sm:text-base font-sans text-[#FFF7ED]/85 leading-relaxed font-light">
-                  {selectedIngredient.flavorNote}
-                </p>
+                  {/* Description & Taste Note */}
+                  <div className="lg:col-span-8 space-y-6">
+                    <div>
+                      <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-[#FACC15] uppercase mb-2">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>BOTANICAL PROFILE • {selectedIngredient.botanicalName}</span>
+                      </div>
+                      <h3 className="font-serif text-2xl sm:text-4xl font-normal text-white">
+                        <KineticText>{selectedIngredient.name}</KineticText>
+                      </h3>
+                      <p className="text-xs font-mono text-[#FFF7ED]/60 mt-1">
+                        TERROIR: {selectedIngredient.origin}
+                      </p>
+                    </div>
 
-                {/* Sensory Chips */}
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {selectedIngredient.sensoryProfile.map((profile, i) => (
-                    <span
-                      key={i}
-                      className="px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-mono tracking-wider uppercase text-amber-200"
-                    >
-                      ✦ {profile}
-                    </span>
-                  ))}
+                    <p className="text-sm sm:text-base font-sans text-[#FFF7ED]/85 leading-relaxed font-light">
+                      {selectedIngredient.flavorNote}
+                    </p>
+
+                    {/* Sensory Chips */}
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {selectedIngredient.sensoryProfile.map((profile, i) => (
+                        <span
+                          key={i}
+                          className="px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-mono tracking-wider uppercase text-amber-200"
+                        >
+                          ✦ {profile}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </GlareHover>
           </motion.div>
         </AnimatePresence>
       </div>

@@ -61,7 +61,7 @@ body {
   color: #FFF7ED;
 }
 
-/* Marquee keyframes */
+/* Marquee keyframes (slow luxury speed) */
 @keyframes marquee {
   0% {
     transform: translateX(0%);
@@ -83,7 +83,7 @@ body {
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 35s linear infinite;
+  animation: marquee 85s linear infinite;
 }
 
 .animate-marquee:hover {
@@ -93,11 +93,25 @@ body {
 .animate-marquee-reverse {
   display: flex;
   width: max-content;
-  animation: marquee-reverse 35s linear infinite;
+  animation: marquee-reverse 85s linear infinite;
 }
 
 .animate-marquee-reverse:hover {
   animation-play-state: paused;
+}
+
+/* Shiny Text animation */
+@keyframes shiny-text {
+  0%, 90%, 100% {
+    background-position: calc(-100% - var(--shiny-width, 120px)) 0;
+  }
+  30%, 60% {
+    background-position: calc(100% + var(--shiny-width, 120px)) 0;
+  }
+}
+
+.animate-shiny-text {
+  animation: shiny-text 8s infinite;
 }
 
 /* Meteors animation */

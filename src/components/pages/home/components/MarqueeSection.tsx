@@ -17,18 +17,18 @@ export function MarqueeSection() {
 
   return (
     <section className="relative overflow-hidden bg-[#EA580C] text-[#FFF7ED] py-6 sm:py-8 border-y border-[#17120F]/20 select-none">
-      {/* Editorial Velocity Scroll Text */}
+      {/* Editorial Velocity Scroll Text with slow, graceful velocity */}
       <div className="relative z-10">
         <VelocityScroll
           text="COOK WITH PASSION • EAT WITH CURIOSITY • SHARE WITH EVERYONE • SLOW FOOD • "
-          default_velocity={2.5}
+          default_velocity={0.8}
           className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight uppercase text-white/95"
         />
       </div>
 
-      {/* High impact secondary marquee bar with graphic badges */}
+      {/* High impact secondary marquee bar with graphic badges (very slow speed) */}
       <div className="mt-4 pt-4 border-t border-white/15">
-        <Marquee reverse speed={30} className="[--gap:3rem]">
+        <Marquee reverse speed={85} className="[--gap:3.5rem]">
           {statementItems.map((item, index) => (
             <div
               key={index}

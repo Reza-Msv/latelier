@@ -5,22 +5,26 @@ import { motion } from "framer-motion";
 import { Sparkles, Check, Send } from "lucide-react";
 import { AvatarCircles } from "@/components/ui/AvatarCircles";
 import { ConfettiButton } from "@/components/ui/ConfettiButton";
+import { DiaTextReveal } from "@/components/ui/DiaTextReveal";
+import { TextAnimate } from "@/components/ui/TextAnimate";
+import { AnimatedShinyText } from "@/components/ui/AnimatedShinyText";
+import { NumberTicker } from "@/components/ui/NumberTicker";
 
 const TASTING_AVATARS = [
   {
-    imageUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=160&q=80",
+    imageUrl: "/images/avatars/avatar-5.jpg",
     name: "Sophie Laurent",
   },
   {
-    imageUrl: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80",
+    imageUrl: "/images/avatars/avatar-6.jpg",
     name: "Henri Morel",
   },
   {
-    imageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&q=80",
+    imageUrl: "/images/avatars/avatar-1.jpg",
     name: "Amara Chen",
   },
   {
-    imageUrl: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=160&q=80",
+    imageUrl: "/images/avatars/avatar-7.jpg",
     name: "Julian Alvarez",
   },
 ];
@@ -42,7 +46,7 @@ export function FinalCTA() {
   return (
     <section
       id="cta"
-      className="relative bg-[#FDFBF7] text-[#17120F] py-28 sm:py-40 px-6 sm:px-12 md:px-16 overflow-hidden"
+      className="relative min-h-[90svh] flex flex-col justify-center bg-[#FDFBF7] text-[#17120F] py-28 sm:py-40 px-6 sm:px-12 md:px-16 overflow-hidden"
     >
       {/* Background Noise */}
       <div className="absolute inset-0 bg-noise opacity-40 pointer-events-none" />
@@ -51,34 +55,41 @@ export function FinalCTA() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-tr from-[#EA580C]/10 via-[#FACC15]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 max-w-6xl mx-auto text-center space-y-12">
-        {/* Eyebrow */}
+        {/* Eyebrow with AnimatedShinyText */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#EA580C]/10 border border-[#EA580C]/30 text-[#EA580C] text-xs font-mono uppercase tracking-[0.25em]"
+          className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#EA580C]/10 border border-[#EA580C]/30 text-xs font-mono uppercase tracking-[0.25em]"
         >
           <Sparkles className="w-3.5 h-3.5 text-[#EA580C]" />
-          <span>JOIN THE EPICUREAN CIRCLE</span>
+          <AnimatedShinyText className="text-[#EA580C] font-semibold">
+            JOIN THE EPICUREAN CIRCLE
+          </AnimatedShinyText>
         </motion.div>
 
-        {/* Oversized Cinematic Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="space-y-4"
-        >
-          <h2 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-normal leading-[0.9] tracking-tight uppercase">
+        {/* Oversized Cinematic Heading with DiaTextReveal & TextAnimate */}
+        <div className="space-y-4">
+          <DiaTextReveal
+            as="h2"
+            duration={1.4}
+            className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-normal leading-[0.9] tracking-tight uppercase"
+          >
             What Are You <br />
             <span className="italic font-serif text-[#EA580C]">Cooking</span> Today?
-          </h2>
-          <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl font-sans text-[#17120F]/70 font-light leading-relaxed">
+          </DiaTextReveal>
+
+          <TextAnimate
+            type="blurIn"
+            by="word"
+            delay={0.3}
+            as="p"
+            className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl font-sans text-[#17120F]/70 font-light leading-relaxed"
+          >
             Receive each week&apos;s master formula, secret wine pairings, and private invitation to our
             seasonal pop-up dining seatings.
-          </p>
-        </motion.div>
+          </TextAnimate>
+        </div>
 
         {/* Newsletter Subscription or Recipe Exploration Box */}
         <motion.div
@@ -127,14 +138,16 @@ export function FinalCTA() {
           </div>
         </motion.div>
 
-        {/* Social Proof Avatars */}
-        <div className="pt-6 flex justify-center">
+        {/* Social Proof Avatars with NumberTicker */}
+        <div className="pt-6 flex flex-col items-center justify-center gap-2">
           <AvatarCircles
             avatarUrls={TASTING_AVATARS}
             numPeople={28}
-            headline="28,000+ chefs, sommeliers and epicures enrolled worldwide"
             className="text-[#17120F]/80"
           />
+          <span className="text-xs font-mono text-[#17120F]/70">
+            <NumberTicker value={28000} suffix="+" className="font-bold text-[#EA580C]" /> chefs, sommeliers and epicures enrolled worldwide
+          </span>
         </div>
       </div>
     </section>

@@ -4,7 +4,12 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Clock, ChefHat, Sparkles, Wine, Flame, CheckCircle2, Eye } from "lucide-react";
 import { Lens } from "@/components/ui/Lens";
-import { ConfettiButton } from "@/components/ui/ConfettiButton";
+import { VideoText } from "@/components/ui/VideoText";
+import { TextAnimate } from "@/components/ui/TextAnimate";
+import { NumberTicker } from "@/components/ui/NumberTicker";
+import { GlareHover } from "@/components/ui/GlareHover";
+import { InteractiveHoverButton } from "@/components/ui/InteractiveHoverButton";
+import { ComicText } from "@/components/ui/ComicText";
 
 const INGREDIENT_LIST = [
   { name: "San Marzano D.O.P. Heirloom Tomatoes", note: "Slow-roasted at 160°C with thyme & sea salt" },
@@ -34,13 +39,16 @@ export function RecipeShowcase() {
       <div className="absolute bottom-10 -left-48 w-96 h-96 bg-[#DC2626]/20 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto space-y-16">
-        {/* Editorial Eyebrow */}
+        {/* Editorial Eyebrow with ComicText */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#FFF7ED]/15 pb-6">
           <div className="flex items-center gap-3">
             <span className="w-2.5 h-2.5 rounded-full bg-[#EA580C] animate-ping" />
             <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#EA580C]">
               TODAY&apos;S MASTERPIECE SPREAD
             </span>
+            <ComicText textColor="#FACC15" shadowColor="#EA580C">
+              CHEF SIGNATURE
+            </ComicText>
           </div>
           <div className="flex items-center gap-2 text-xs font-mono text-[#FFF7ED]/60">
             <Eye className="w-3.5 h-3.5 text-[#FACC15]" />
@@ -52,38 +60,43 @@ export function RecipeShowcase() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Interactive Lens Image & Plating Inspection */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="relative rounded-3xl overflow-hidden border border-[#FFF7ED]/20 shadow-[0_25px_60px_rgba(0,0,0,0.8)] group">
-              <Lens zoomFactor={2.4} lensSize={200} className="w-full aspect-[4/3] rounded-3xl">
-                <div className="relative w-full h-full min-h-[380px] sm:min-h-[500px]">
-                  <Image
-                    src="https://images.unsplash.com/photo-1621996346565-e3d5d628169e?auto=format&fit=crop&w=1600&q=90"
-                    alt="Spicy Rigatoni with creamy tomato sauce, smoked burrata and fresh basil"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                    priority
-                    className="object-cover object-center"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#17120F]/80 via-transparent to-transparent pointer-events-none" />
-                </div>
-              </Lens>
+            <GlareHover
+              glareColor="rgba(250, 204, 21, 0.2)"
+              className="rounded-3xl"
+            >
+              <div className="relative rounded-3xl overflow-hidden border border-[#FFF7ED]/20 shadow-[0_25px_60px_rgba(0,0,0,0.8)] group">
+                <Lens zoomFactor={2.4} lensSize={200} className="w-full aspect-[4/3] rounded-3xl">
+                  <div className="relative w-full h-full min-h-[380px] sm:min-h-[500px]">
+                    <Image
+                      src="/images/recipes/spicy-rigatoni.jpg"
+                      alt="Spicy Rigatoni with creamy tomato sauce, smoked burrata and fresh basil"
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 1024px) 100vw, 60vw"
+                      className="object-cover object-center"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#17120F]/80 via-transparent to-transparent pointer-events-none" />
+                  </div>
+                </Lens>
 
-              {/* In-Image Floating Plating Card */}
-              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between pointer-events-none">
-                <div className="bg-[#17120F]/90 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/15 text-xs font-mono">
-                  <span className="text-[#FACC15]">ORIGIN:</span> EMILIA-ROMAGNA, ITALY
-                </div>
-                <div className="bg-[#EA580C] text-white px-3.5 py-1.5 rounded-full text-[10px] font-mono uppercase tracking-widest font-bold shadow-lg">
-                  ★ SIGNATURE № 01
+                {/* In-Image Floating Plating Card */}
+                <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between pointer-events-none z-10">
+                  <div className="bg-[#17120F]/90 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/15 text-xs font-mono">
+                    <span className="text-[#FACC15]">ORIGIN:</span> EMILIA-ROMAGNA, ITALY
+                  </div>
+                  <div className="bg-[#EA580C] text-white px-3.5 py-1.5 rounded-full text-[10px] font-mono uppercase tracking-widest font-bold shadow-lg">
+                    ★ SIGNATURE № 01
+                  </div>
                 </div>
               </div>
-            </div>
+            </GlareHover>
 
             <p className="text-center text-xs font-mono text-[#FFF7ED]/50 tracking-wider">
               ✦ Magnify to inspect blistered tomato skins, Grana Padano flakes &amp; hand-torn basil
             </p>
           </div>
 
-          {/* Right Column: Editorial Recipe Details */}
+          {/* Right Column: Editorial Recipe Details with VideoText & TextAnimate */}
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EA580C]/20 border border-[#EA580C]/40 text-[#F97316] text-[11px] font-mono tracking-widest uppercase">
@@ -91,36 +104,51 @@ export function RecipeShowcase() {
                 <span>CHEF DE CUISINE SELECTION</span>
               </div>
 
-              <h2 className="font-serif text-3xl sm:text-5xl font-normal leading-[1.05] tracking-tight">
-                Spicy Heirloom Tomato &amp; <br />
-                <span className="italic text-[#F97316]">Smoked Burrata</span> Rigatoni
-              </h2>
+              {/* VideoText for Master Headline */}
+              <div>
+                <VideoText
+                  text="SPICY RIGATONI"
+                  videoSrc="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-wine-being-poured-into-a-glass-42352-large.mp4"
+                  fallbackImage="/images/recipes/spicy-rigatoni.jpg"
+                  className="font-serif text-4xl sm:text-6xl font-normal leading-[1.0] tracking-tight block"
+                />
+                <h2 className="font-serif text-2xl sm:text-3xl font-normal text-[#FFF7ED]/90 italic mt-1">
+                  with Smoked Burrata &amp; Heirloom Pomodoro
+                </h2>
+              </div>
 
-              <p className="text-sm sm:text-base font-sans text-[#FFF7ED]/80 leading-relaxed font-light">
+              <TextAnimate
+                type="blurIn"
+                by="word"
+                delay={0.2}
+                as="p"
+                className="text-sm sm:text-base font-sans text-[#FFF7ED]/80 leading-relaxed font-light"
+              >
                 An homage to slow Italian summers. Rigatoni pasta extruded through bronze dies, tossed
                 in a velvety emulsion of fire-roasted San Marzanos, spicy Calabrian oil, and crowned with
                 cool, creamy smoked burrata.
-              </p>
+              </TextAnimate>
             </div>
 
-            {/* Quick Metrics Bar */}
+            {/* Quick Metrics Bar with NumberTicker */}
             <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-[#FFF7ED]/5 border border-[#FFF7ED]/10 text-center font-mono text-xs">
               <div>
                 <span className="text-[#FFF7ED]/50 text-[10px] block">COOK TIME</span>
                 <span className="text-[#FFF7ED] font-bold text-sm flex items-center justify-center gap-1 mt-0.5">
-                  <Clock className="w-3.5 h-3.5 text-[#EA580C]" /> 25 MIN
+                  <Clock className="w-3.5 h-3.5 text-[#EA580C]" />
+                  <NumberTicker value={25} suffix=" MIN" />
                 </span>
               </div>
               <div className="border-x border-[#FFF7ED]/10">
                 <span className="text-[#FFF7ED]/50 text-[10px] block">DIFFICULTY</span>
                 <span className="text-[#FACC15] font-bold text-sm flex items-center justify-center gap-1 mt-0.5">
-                  <ChefHat className="w-3.5 h-3.5" /> EASY
+                  <ChefHat className="w-3.5 h-3.5 text-[#FACC15]" /> MASTER
                 </span>
               </div>
               <div>
                 <span className="text-[#FFF7ED]/50 text-[10px] block">WINE PAIRING</span>
                 <span className="text-[#FFF7ED] font-bold text-xs flex items-center justify-center gap-1 mt-0.5">
-                  <Wine className="w-3.5 h-3.5 text-[#EF4444]" /> Chianti Classico
+                  <Wine className="w-3.5 h-3.5 text-[#EF4444]" /> Chianti
                 </span>
               </div>
             </div>
@@ -176,15 +204,15 @@ export function RecipeShowcase() {
               </div>
             </div>
 
-            {/* Actions */}
+            {/* Actions with InteractiveHoverButton */}
             <div className="flex flex-wrap items-center gap-4 pt-4">
-              <ConfettiButton
-                recipeName="Spicy Tomato & Burrata Rigatoni"
-                variant="primary"
+              <InteractiveHoverButton
+                text="SAVE MASTER FORMULA"
+                dotColor="bg-[#FACC15]"
+                bgColor="bg-[#EA580C]"
+                textColor="text-white"
                 className="w-full sm:w-auto"
-              >
-                SAVE MASTER RECIPE
-              </ConfettiButton>
+              />
 
               <div className="flex items-center gap-2 text-xs font-mono text-[#FFF7ED]/60">
                 <CheckCircle2 className="w-4 h-4 text-[#EA580C]" />
