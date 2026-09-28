@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { ArrowUp, ArrowUpRight, Sparkles, MapPin, Clock, ChefHat, Heart, Compass } from "lucide-react";
 import { AnimatedShinyText } from "@/components/ui/AnimatedShinyText";
@@ -9,10 +7,6 @@ import { KineticText } from "@/components/ui/KineticText";
 import { InteractiveHoverButton } from "@/components/ui/InteractiveHoverButton";
 
 export function Footer() {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   const navLinks = [
     { number: "01", name: "Seasonal Creations", href: "#featured-recipes" },
     { number: "02", name: "Master Class Dish", href: "#showcase" },
@@ -53,14 +47,14 @@ export function Footer() {
             </AnimatedShinyText>
           </div>
 
-          <button
-            onClick={scrollToTop}
+          <a
+            href="#top"
             aria-label="Back to top"
             className="group flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-[#FFF7ED]/20 hover:border-[#EA580C] bg-[#FFF7ED]/5 hover:bg-[#EA580C] text-[#FFF7ED] transition-all duration-300 text-xs font-mono uppercase tracking-widest shadow-lg"
           >
             <span>TOP</span>
             <ArrowUp className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5 text-[#EA580C] group-hover:text-white" />
-          </button>
+          </a>
         </div>
       </div>
 
