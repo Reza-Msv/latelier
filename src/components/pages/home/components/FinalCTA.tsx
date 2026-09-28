@@ -31,12 +31,38 @@ const TASTING_AVATARS = [
 
 export function FinalCTA() {
   const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    setSubscribed(true);
+
+    setStatus("loading");
+    setErrorMessage("");
+
+    try {
+      // Simulate network request
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          // Simulate a validation error for a specific email
+          if (email === "error@example.com") {
+            reject(new Error("This email is already registered in our circle."));
+          } else {
+            resolve(true);
+          }
+        }, 1500);
+      });
+
+      setStatus("success");
+    } catch (error: unknown) {
+      setStatus("error");
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("An unexpected error occurred. Please try again.");
+      }
+    }
   };
 
   const scrollToTop = () => {
@@ -97,37 +123,74 @@ export function FinalCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="max-w-xl mx-auto w-full"
+          className="max-w-xl mx-auto w-full relative"
         >
-          {subscribed ? (
-            <div className="p-6 rounded-2xl bg-[#17120F] text-[#FFF7ED] border border-[#EA580C] flex items-center justify-center gap-3 font-mono text-sm shadow-xl">
+          {/* Accessible Live Region for Announcements */}
+          <div aria-live="polite" className="sr-only">
+            {status === "loading" && "Submitting your subscription..."}
+            {status === "success" && "Successfully subscribed to The Atelier."}
+            {status === "error" && `Error: ${errorMessage}`}
+          </div>
+
+          {status === "success" ? (
+            <div className="p-6 rounded-2xl bg-[#17120F] text-[#FFF7ED] border border-[#EA580C] flex items-center justify-center gap-3 font-mono text-sm shadow-xl animate-in fade-in zoom-in duration-500">
               <Check className="w-5 h-5 text-emerald-400" />
               <span>WELCOME TO THE ATELIER. FIRST FORMULA SENT.</span>
             </div>
           ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col sm:flex-row items-center gap-3 p-2 rounded-full bg-white border border-[#17120F]/15 shadow-2xl hover:border-[#EA580C]/50 transition-colors"
-            >
-              <input
-                type="email"
-                required
-                placeholder="Enter your email for the weekly dispatch..."
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-6 py-3.5 text-sm font-sans bg-transparent outline-none text-[#17120F] placeholder:text-[#17120F]/40"
-              />
-              <button
-                type="submit"
-                className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#EA580C] hover:bg-[#C2410C] text-white font-semibold text-xs font-mono uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-lg"
+            <div className="space-y-3">
+              <form
+                onSubmit={handleSubmit}
+                className={`flex flex-col sm:flex-row items-center gap-3 p-2 rounded-full bg-white border shadow-2xl transition-all duration-300 ${
+                  status === "error"
+                    ? "border-red-400 hover:border-red-500"
+                    : "border-[#17120F]/15 hover:border-[#EA580C]/50"
+                }`}
               >
-                <span>JOIN CIRCLE</span>
-                <Send className="w-3.5 h-3.5" />
-              </button>
-            </form>
+                <input
+                  type="email"
+                  required
+                  disabled={status === "loading"}
+                  placeholder="Enter your email for the weekly dispatch..."
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (status === "error") setStatus("idle");
+                  }}
+                  className="w-full px-6 py-3.5 text-sm font-sans bg-transparent outline-none text-[#17120F] placeholder:text-[#17120F]/40 disabled:opacity-50"
+                />
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#EA580C] hover:bg-[#C2410C] text-white font-semibold text-xs font-mono uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {status === "loading" ? (
+                    <>
+                      <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span>JOINING...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>JOIN CIRCLE</span>
+                      <Send className="w-3.5 h-3.5" />
+                    </>
+                  )}
+                </button>
+              </form>
+
+              {status === "error" && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-red-500 text-sm font-sans px-4 text-left"
+                >
+                  {errorMessage}
+                </motion.p>
+              )}
+            </div>
           )}
 
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
             <ConfettiButton
               recipeName="Full Tasting Menu"
               variant="pill"
